@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+</head>
+<body>
+<div class="container">
+	<h2>DashBoard</h2><br>
+
+	<table class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">Academy Name</th>
+		      <th scope="col">Opend/Closed</th>
+		      <th scope="col">Price(hr)</th>
+		      <th scope="col">No. of Players Per Court</th>
+		      <th scope="col">Edit</th>
+		      <th scope="col">Delete</th>
+
+		    </tr>
+		  </thead>
+		  <tbody>
+		  		{% for d in data %}
+		    <tr>
+		      <th scope="row">{{d.name}}</th>
+		      <td>{% if d.status %}
+		      Open{% else %}Closed
+		      {% endif %}
+		  </td>
+		      <td>${{d.price}}</td>
+		      <td>{{d.players_per_court}}</td>
+
+		      <td>
+		  	      	<a href="show?id={{d.id}}">
+		  	      		<button class="button is-primary">Update</button>
+		  	      	</a>
+		  	  </td>
+
+		      <form>
+		      	{% csrf_token %}
+		  	      
+		  	      <td>
+		  	      	<button class="button is-primary" formaction="delete/{{d.id}}">Delete</button>
+		  	      </td>
+		  	      
+		  	  </form>
+		     
+
+		    </tr>  
+
+		    {% endfor %%}
+		  </tbody>
+    
+	</table>
+
+
+	{% if entry %}
+	<h2>Update {{entry.name}} </h2>
+	{% else %}
+	<h2>Create New</h2>
+	{% endif %}
+
+	<form method="post">
+		{% csrf_token %}
+		<!-- <label>Price</label>
+		<input type="text" name="name" placeholder="Name of academy" {% if entry%}
+ value={{entry.name}} {% endif %}><br>
+		<label>Price Per Hr</label>
+		<input type="text" name="price" {% if entry%}
+ value={{entry.price}} {% endif %}><br>
+		<label>Players Per Court</label>
+		<input type="text" name="players_per_court" {% if entry%}
+ value={{entry.players_per_court}} {% endif %}><br>
+		<label>Open</label>
+		<input type="checkbox" name="status"><br>
+
+		<input type="submit" name="Submit" value="Save" {% if entry%}
+ formaction="update/{{entry.id}}" {% else %} formaction="create" {% endif %}> -->
+
+	
+
+
+	<table class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">Academy Name</th>
+		      <th scope="col">Opend/Closed</th>
+		      <th scope="col">Price(hr)</th>
+		      <th scope="col">No. of Players Per Court</th>
+		      <th scope="col">Edit</th>
+		      <th scope="col">Cancel</th>
+
+		    </tr>
+		  </thead>
+		  <tbody>
+		  		
+		    <tr>
+		      <td><input type="text" name="name" {% if entry%}
+ value="{{entry.name}}"  {% endif %}></td>
+		      <td><label>Open</label>
+		<input type="checkbox" name="status">
+		  </td>
+		      <td><input type="text" name="price" {% if entry%}
+ value={{entry.price}} {% endif %}></td>
+		      <td>
+		      		<input type="text" name="players_per_court" {% if entry%}
+ value={{entry.players_per_court}} {% endif %}>
+		      </td>
+
+		      <td>
+		      	<input type="submit" name="Submit" value="Save" {% if entry%}
+ formaction="update/{{entry.id}}" {% else %} formaction="create" {% endif %}>
+		      </td>
+
+    </form>
+
+		      <form>
+		      	<td>
+		      	<input type="submit" name="Submit" value="Cancel" {% if entry%}
+ formaction="show" {% else %} formaction="create" {% endif %}>
+		      </td>
+		      </form>
+		     
+
+		    </tr> 
+		  </tbody>
+    
+	</table>
+
+	
+
+</div>
+</body>
+</html>
